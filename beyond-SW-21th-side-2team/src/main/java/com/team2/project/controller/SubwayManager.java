@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class SubwayManager {
-    private ArrayList<ArrayList<Integer>> stationConnection;
+    private ArrayList<ArrayList<Integer>> stationConnection = new ArrayList<>();
     private ArrayList<StationDTO> stations;
     private StationByLinePrinter sp;
 
@@ -104,16 +104,123 @@ public class SubwayManager {
         /*
         ArrayList<ArrayList<Integer>> 인접리스트 기록
          */
-        stationConnection = new ArrayList<>();
+        //stationConnection = new ArrayList<>();
+        System.out.println("connection list " + stationConnection.size());
 //        for (StationDTO station : stations) {
 //            System.out.println(station.getStationName() + " : " + station.getStationNo() + " | line : " + Arrays.toString(station.getLineNo()));
 //        }
 
-        for (int i = 1; i <= stations.size(); i++) {
-            ArrayList<Integer> adj = new ArrayList<>();
-            adj.add(2, 1);
-            adj.add(2, 3);
-            stationConnection.add(adj);
+        System.out.println("station: " + stations.size());
+//        ArrayList<Integer> adj = new ArrayList<>();
+        for (int i = 0; i < stations.size()+1; i++) {
+//            ArrayList<Integer> adj = new ArrayList<>();
+            stationConnection.add(i, new ArrayList<Integer>());
+        }
+//        adj.add(1, 2);
+//        stationConnection.get(1).add(2);
+//        stationConnection.get(2).add(1);
+//        stationConnection.get(2).add(3);
+
+
+        // 신분당선
+        stationConnection.get(1).add(2);
+        stationConnection.get(2).add(1);
+        stationConnection.get(2).add(3);
+        stationConnection.get(3).add(2);
+        stationConnection.get(3).add(4);
+        stationConnection.get(4).add(3);
+        stationConnection.get(4).add(5);
+        stationConnection.get(5).add(4);
+        stationConnection.get(5).add(6);
+        stationConnection.get(6).add(5);
+        stationConnection.get(6).add(7);
+        stationConnection.get(6).add(21);
+        stationConnection.get(7).add(6);
+        stationConnection.get(7).add(8);
+        stationConnection.get(8).add(7);
+        stationConnection.get(8).add(9);
+        stationConnection.get(9).add(8);
+        stationConnection.get(9).add(10);
+        stationConnection.get(10).add(9);
+        stationConnection.get(10).add(11);
+        stationConnection.get(11).add(10);
+        stationConnection.get(11).add(12);
+        stationConnection.get(11).add(39);
+        stationConnection.get(11).add(40);
+        stationConnection.get(12).add(11);
+        stationConnection.get(12).add(13);
+        stationConnection.get(13).add(12);
+        stationConnection.get(13).add(14);
+        stationConnection.get(14).add(13);
+        stationConnection.get(14).add(15);
+        stationConnection.get(15).add(14);
+        stationConnection.get(15).add(43);
+
+
+        // 수인분당선
+        stationConnection.get(16).add(17);
+        stationConnection.get(17).add(16);
+        stationConnection.get(17).add(18);
+        stationConnection.get(18).add(17);
+        stationConnection.get(18).add(19);
+        stationConnection.get(19).add(18);
+        stationConnection.get(19).add(20);
+        stationConnection.get(20).add(19);
+        stationConnection.get(20).add(21);
+        stationConnection.get(21).add(20);
+        stationConnection.get(21).add(22);
+        stationConnection.get(22).add(21);
+        stationConnection.get(22).add(23);
+        stationConnection.get(23).add(22);
+        stationConnection.get(23).add(24);
+        stationConnection.get(24).add(23);
+        stationConnection.get(24).add(25);
+        stationConnection.get(25).add(24);
+        stationConnection.get(25).add(26);
+        stationConnection.get(26).add(25);
+        stationConnection.get(26).add(27);
+        stationConnection.get(27).add(26);
+        stationConnection.get(27).add(28);
+        stationConnection.get(28).add(27);
+        stationConnection.get(28).add(29);
+        stationConnection.get(29).add(28);
+        stationConnection.get(29).add(30);
+        stationConnection.get(30).add(29);
+        stationConnection.get(30).add(31);
+        stationConnection.get(30).add(35);
+        stationConnection.get(31).add(30);
+        stationConnection.get(31).add(32);
+        stationConnection.get(32).add(31);
+        stationConnection.get(32).add(33);
+        stationConnection.get(33).add(32);
+        stationConnection.get(33).add(34);
+        stationConnection.get(34).add(33);
+        stationConnection.get(34).add(38);
+        stationConnection.get(34).add(39);
+
+
+        // 3호선
+        stationConnection.get(35).add(36);
+        stationConnection.get(36).add(35);
+        stationConnection.get(36).add(37);
+        stationConnection.get(37).add(36);
+        stationConnection.get(37).add(38);
+        stationConnection.get(38).add(37);
+        stationConnection.get(38).add(39);
+        stationConnection.get(39).add(38);
+        stationConnection.get(39).add(40);
+        stationConnection.get(40).add(39);
+        stationConnection.get(40).add(41);
+        stationConnection.get(41).add(40);
+        stationConnection.get(41).add(42);
+        stationConnection.get(42).add(41);
+        stationConnection.get(42).add(43);
+        stationConnection.get(43).add(42);
+        stationConnection.get(43).add(44);
+
+
+        for (ArrayList<Integer> a : stationConnection) {
+            System.out.println(a);
         }
 
 
@@ -143,7 +250,7 @@ public class SubwayManager {
 
         int stationNo = 0;
 
-        for(int i = 0; i<stations.size();i++){
+        for(int i = 1; i<=stations.size();i++){
 
             if(stations.get(i).getStationName().equals(name)){
                 stationNo = stations.get(i).getStationNo();
