@@ -5,6 +5,7 @@ import com.team2.project.model.dto.StationDTO;
 import com.team2.project.view.StationByLinePrinter;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SubwayManager {
     private ArrayList<ArrayList<Integer>> stationConnection;
@@ -31,6 +32,26 @@ public class SubwayManager {
 
     public ArrayList<StationDTO> bfs(int start) {
         return new ArrayList<>();
+    }
+
+
+    public int findStationNo(String name){
+        // 사용자에게 입력받은 각각의 역 이름에 맞는 번호를 뽑아내는 메서드
+        
+        StationDTO station = new StationDTO();
+
+        int stationNo = 0;
+
+        for(int i = 0; i<stations.size();i++){
+
+            if(stations.get(i).getStationName().equals(name)){
+                stationNo = stations.get(i).getStationNo();
+            }
+
+        }
+
+        return stationNo;
+
     }
 }
 
