@@ -17,6 +17,17 @@ public class SubwayManager {
         String line3 = "수서-일원-대청-학여울-대치-도곡-매봉-양재-남부터미널-교대-고속터미널-잠원-신사";
     }
 
+    /* @Param:
+     * int start: 출발역의 고유번호
+     * int end: 도착역의 고유번호
+     * @Return: 현재는 랜덤으로 구현
+     * 이후에는 아직 미구현인 convert() 메소드를 통해 역의 고유 번호를 받고
+     * 출발역에서 종점역까지의 거리 (역의 갯수)를 계산해서 시간을 반환한다*/
+    public int timeCalc(int start, int end){
+
+        return (int) (Math.random()*60 )+ 1;
+
+    }
 
     public ArrayList<StationDTO> bfs(int start) {
         return new ArrayList<>();
