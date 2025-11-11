@@ -7,7 +7,8 @@ import com.team2.project.view.StationByLinePrinter;
 import java.util.ArrayList;
 
 public class SubwayManager {
-    private ArrayList<ArrayList<StationDTO>> stations;
+    private ArrayList<ArrayList<Integer>> stationConnection;
+    private ArrayList<StationDTO> stations;
     private StationByLinePrinter sp;
 
     public void setUp() {
