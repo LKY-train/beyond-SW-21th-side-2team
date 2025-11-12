@@ -6,6 +6,8 @@ import com.team2.project.controller.SubwayManager;
 public class SubwayMenu {
     private SubwayManager sm;
 
-    public void mainMenu() { }
+    public void mainMenu() {
+
+    }
 }
 
