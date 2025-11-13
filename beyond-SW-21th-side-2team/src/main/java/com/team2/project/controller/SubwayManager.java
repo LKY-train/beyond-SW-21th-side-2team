@@ -103,9 +103,6 @@ public class SubwayManager {
         /*
         ArrayList<ArrayList<Integer>> 인접리스트 기록
          */
-        System.out.println("connection list " + stationConnection.size());
-
-        System.out.println("station: " + stations.size());
         for (int i = 0; i < stations.size()+1; i++) {
             stationConnection.add(i, new ArrayList<Integer>());
         }
@@ -178,20 +175,22 @@ public class SubwayManager {
                     break;
             }
         }
-        for (int i = 0; i < stationConnection.size(); i++) {
-            System.out.println(i + " : " + stationConnection.get(i));
-        }
     }
 
     /* @Param:
      * int start: 출발역의 고유번호
      * int end: 도착역의 고유번호
-     * @Return: 현재는 랜덤으로 구현
-     * 이후에는 아직 미구현인 convert() 메소드를 통해 역의 고유 번호를 받고
+     * @Return: findStationNo() 메소드를 통해 역의 고유 번호를 받고
      * 출발역에서 종점역까지의 거리 (역의 갯수)를 계산해서 시간을 반환한다*/
     public int timeCalc(int start, int end){
 
-        return (int) (Math.random()*60 )+ 1;
+        int stations = 0;
+        String lines = bfs(start, end);
+        for(String line : lines.split("-")){
+            stations++;
+        }
+
+        return stations*5;
 
     }
 
@@ -222,11 +221,12 @@ public class SubwayManager {
         }
         StringBuilder sb = new StringBuilder();
         int i = end;
+        sb.append(stations.get(i-1).getStationName()).append("-");
         while(i != start){
             i = parent[i];
-            sb.append(stations.get(i).getStationName()).append("-");
+            sb.append(stations.get(i-1).getStationName()).append("-");
         }
-        sb.append(stations.get(start-1).getStationName());
+        sb.setLength(sb.length()-1);
         return sb.toString();
     }
 
@@ -245,5 +245,11 @@ public class SubwayManager {
         }
         return stationNo;
     }
+
+    public void selectAll(){
+        sp.printAllStation(stations);
+
+    }
+
 }
 
