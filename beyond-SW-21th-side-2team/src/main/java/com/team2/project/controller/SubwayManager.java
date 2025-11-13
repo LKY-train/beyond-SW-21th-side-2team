@@ -221,11 +221,12 @@ public class SubwayManager {
         }
         StringBuilder sb = new StringBuilder();
         int i = end;
+        sb.append(stations.get(i-1).getStationName()).append("-");
         while(i != start){
             i = parent[i];
-            sb.append(stations.get(i).getStationName()).append("-");
+            sb.append(stations.get(i-1).getStationName()).append("-");
         }
-        sb.append(stations.get(start-1).getStationName());
+        sb.setLength(sb.length()-1);
         return sb.toString();
     }
 
