@@ -189,11 +189,8 @@ public class SubwayManager {
         for(String line : lines.split("-")){
             stations++;
         }
-
         return stations*5;
-
     }
-
 
     public String bfs(int start, int end) {
 
@@ -244,6 +241,5 @@ public class SubwayManager {
     public void selectAll(){
         sp.printAllStation(stations);
     }
-
 }
 
