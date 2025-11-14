@@ -18,7 +18,7 @@ public class SubwayMenu {
                     환영합니다
                     1. 노선 정보 확인
                     2. 최단 거리 노선 계산
-                    3. 시간 계산 
+                    3. 시간 계산
                     9. 종료
                     """);
             int input = sc.nextInt();
@@ -31,7 +31,7 @@ public class SubwayMenu {
                     String start = sc.nextLine();
                     System.out.println("도착역을 입력해주세요");
                     String end = sc.nextLine();
-                    sm.bfs(sm.findStationNo(start),sm.findStationNo(end));
+                    sp.printPath(sm.bfs(sm.findStationNo(start),sm.findStationNo(end)));
                     break;
                 case 3:
                     System.out.println("출발역을 입력해주세요");

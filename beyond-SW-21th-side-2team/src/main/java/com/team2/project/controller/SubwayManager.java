@@ -9,7 +9,7 @@ import java.util.*;
 public class SubwayManager {
     private ArrayList<ArrayList<Integer>> stationConnection = new ArrayList<>();
     private ArrayList<StationDTO> stations;
-    private StationByLinePrinter sp;
+    private StationByLinePrinter sp = new StationByLinePrinter();
 
     public void setUp() {
         /*
@@ -189,11 +189,8 @@ public class SubwayManager {
         for(String line : lines.split("-")){
             stations++;
         }
-
         return stations*5;
-
     }
-
 
     public String bfs(int start, int end) {
 
@@ -230,26 +227,19 @@ public class SubwayManager {
         return sb.toString();
     }
 
-    public int findStationNo(String name){
+    public int findStationNo(String name) {
         // 사용자에게 입력받은 각각의 역 이름에 맞는 번호를 뽑아내는 메서드
-
-        StationDTO station = new StationDTO();
-
-        int stationNo = 0;
-
-        for(int i = 1; i<=stations.size();i++){
-
-            if(stations.get(i).getStationName().equals(name)){
-                stationNo = stations.get(i).getStationNo();
+        int n = 0;
+        for (StationDTO s : stations) {
+            if (s.getStationName().equals(name)) {
+                n =  s.getStationNo();
             }
         }
-        return stationNo;
+        return n;
     }
 
     public void selectAll(){
         sp.printAllStation(stations);
-
     }
-
 }
 
