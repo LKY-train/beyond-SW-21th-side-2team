@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.project.model.dao.LineDAO">
+
+    <!-- Result Map for LineDTO -->
+    <resultMap id="lineResultMap" type="com.team2.project.model.dto.LineDTO">
+        <id property="lineNo" column="line_no"/>
+        <result property="lineName" column="line_name"/>
+    </resultMap>
+
+    <!-- 모든 노선 조회 -->
+    <select id="selectAllLines" resultMap="lineResultMap">
+        SELECT line_no, line_name
+        FROM lines
+        ORDER BY line_no
+    </select>
+
+    <!-- 노선 ID로 노선 조회 -->
+    <select id="selectLineById" parameterType="int" resultMap="lineResultMap">
+        SELECT line_no, line_name
+        FROM lines
+        WHERE line_id = #{lineId}
+    </select>
+
+    <!-- 노선 번호로 노선 조회 -->
+    <select id="selectLineByNo" parameterType="int" resultMap="lineResultMap">
+        SELECT line_no, line_name
+        FROM lines
+        WHERE line_no = #{lineNo}
+    </select>
+
+    <!-- 노선 추가 -->
+    <insert id="insertLine" parameterType="com.team2.project.model.dto.LineDTO">
+        INSERT INTO lines (line_no, line_name)
+        VALUES (#{lineNo}, #{lineName})
+    </insert>
+
+    <!-- 노선 정보 수정 -->
+    <update id="updateLine" parameterType="com.team2.project.model.dto.LineDTO">
+        UPDATE lines
+        SET line_name = #{lineName}
+        WHERE line_no = #{lineNo}
+    </update>
+
+    <!-- 노선 삭제 -->
+    <delete id="deleteLine" parameterType="int">
+        DELETE FROM lines
+        WHERE line_id = #{lineId}
+    </delete>
+
+</mapper>
