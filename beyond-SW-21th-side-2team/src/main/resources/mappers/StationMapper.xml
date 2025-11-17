@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.project.model.dao.StationDAO">
+
+    <!-- Result Map for StationDTO -->
+    <resultMap id="stationResultMap" type="com.team2.project.model.dto.StationDTO">
+        <id property="stationId" column="station_id"/>
+        <result property="stationNo" column="station_no"/>
+        <result property="stationName" column="station_name"/>
+        <result property="fastExit" column="fast_exit"/>
+        <result property="isTransfer" column="is_transfer"/>
+        <collection property="lineNumbers" ofType="java.lang.Integer" column="station_id"
+                    select="selectLineNumbersByStationId"/>
+    </resultMap>
+
+    <!-- 모든 역 조회 -->
+    <select id="selectAllStations" resultMap="stationResultMap">
+        SELECT 
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            CASE WHEN ts.station_id IS NOT NULL THEN 1 ELSE 0 END as is_transfer
+        FROM stations s
+        LEFT JOIN transfer_stations ts ON s.station_id = ts.station_id
+        ORDER BY s.station_no
+    </select>
+
+    <!-- 역 ID로 역 조회 -->
+    <select id="selectStationById" parameterType="int" resultMap="stationResultMap">
+        SELECT 
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            CASE WHEN ts.station_id IS NOT NULL THEN 1 ELSE 0 END as is_transfer
+        FROM stations s
+        LEFT JOIN transfer_stations ts ON s.station_id = ts.station_id
+        WHERE s.station_id = #{stationId}
+    </select>
+
+    <!-- 역 이름으로 역 조회 -->
+    <select id="selectStationByName" parameterType="String" resultMap="stationResultMap">
+        SELECT 
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            CASE WHEN ts.station_id IS NOT NULL THEN 1 ELSE 0 END as is_transfer
+        FROM stations s
+        LEFT JOIN transfer_stations ts ON s.station_id = ts.station_id
+        WHERE s.station_name = #{stationName}
+    </select>
+
+    <!-- 역 번호로 역 조회 -->
+    <select id="selectStationByNo" parameterType="int" resultMap="stationResultMap">
+        SELECT 
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            CASE WHEN ts.station_id IS NOT NULL THEN 1 ELSE 0 END as is_transfer
+        FROM stations s
+        LEFT JOIN transfer_stations ts ON s.station_id = ts.station_id
+        WHERE s.station_no = #{stationNo}
+    </select>
+
+    <!-- 특정 노선의 모든 역 조회 -->
+    <select id="selectStationsByLineNo" parameterType="int" resultMap="stationResultMap">
+        SELECT
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            CASE WHEN ts.station_id IS NOT NULL THEN 1 ELSE 0 END as is_transfer
+        FROM stations s
+        INNER JOIN station_lines sl ON s.station_id = sl.station_id
+        INNER JOIN `lines` l ON sl.line_id = l.line_id
+        LEFT JOIN transfer_stations ts ON s.station_id = ts.station_id
+        WHERE l.line_no = #{lineNo}
+        ORDER BY sl.station_order
+    </select>
+
+    <!-- 환승역만 조회 -->
+    <select id="selectTransferStations" resultMap="stationResultMap">
+        SELECT 
+            s.station_id,
+            s.station_no,
+            s.station_name,
+            s.fast_exit,
+            1 as is_transfer
+        FROM stations s
+        INNER JOIN transfer_stations ts ON s.station_id = ts.station_id
+        ORDER BY s.station_no
+    </select>
+
+    <!-- 역의 노선 번호들 조회 (collection용) -->
+    <select id="selectLineNumbersByStationId" parameterType="int" resultType="java.lang.Integer">
+        SELECT l.line_no
+        FROM `lines` l
+        INNER JOIN station_lines sl ON l.line_id = sl.line_id
+        WHERE sl.station_id = #{stationId}
+        ORDER BY l.line_no
+    </select>
+
+    <!-- 역 이름으로 역 번호 찾기 -->
+    <select id="findStationNoByName" parameterType="String" resultType="java.lang.Integer">
+        SELECT station_no
+        FROM stations
+        WHERE station_name = #{stationName}
+    </select>
+
+    <!-- 역 추가 -->
+    <insert id="insertStation" parameterType="com.team2.project.model.dto.StationDTO"
+            useGeneratedKeys="true" keyProperty="stationId">
+        INSERT INTO stations (station_no, station_name, fast_exit)
+        VALUES (#{stationNo}, #{stationName}, #{fastExit})
+    </insert>
+
+    <!-- 역 정보 수정 -->
+    <update id="updateStation" parameterType="com.team2.project.model.dto.StationDTO">
+        UPDATE stations
+        SET station_name = #{stationName},
+            fast_exit = #{fastExit}
+        WHERE station_id = #{stationId}
+    </update>
+
+    <!-- 역 삭제 -->
+    <delete id="deleteStation" parameterType="int">
+        DELETE FROM stations
+        WHERE station_id = #{stationId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- Properties 파일 로드 -->
+    <properties resource="config/database.properties"/>
+
+    <!-- 설정 -->
+    <settings>
+        <!-- 언더스코어를 카멜케이스로 자동 매핑 (예: station_id -> stationId) -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- null 값 처리 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- 로깅 설정 (개발 시에만 사용, 운영에서는 제거) -->
+        <!-- <setting name="logImpl" value="STDOUT_LOGGING"/> -->
+    </settings>
+
+    <!-- Type Aliases (클래스 이름을 짧게 사용) -->
+    <typeAliases>
+        <typeAlias type="com.team2.project.model.dto.StationDTO" alias="StationDTO"/>
+        <typeAlias type="com.team2.project.model.dto.LineDTO" alias="LineDTO"/>
+        <typeAlias type="com.team2.project.model.dto.ConnectionDTO" alias="ConnectionDTO"/>
+        <typeAlias type="com.team2.project.model.dto.TransferStationDTO" alias="TransferStationDTO"/>
+    </typeAliases>
+
+    <!-- 데이터베이스 환경 설정 -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 트랜잭션 매니저 -->
+            <transactionManager type="JDBC"/>
+            <!-- 커넥션 풀 설정 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${db.driver}"/>
+                <property name="url" value="${db.url}"/>
+                <property name="username" value="${db.username}"/>
+                <property name="password" value="${db.password}"/>
+                
+                <!-- 커넥션 풀 옵션 -->
+                <property name="poolMaximumActiveConnections" value="10"/>
+                <property name="poolMaximumIdleConnections" value="5"/>
+                <property name="poolMaximumCheckoutTime" value="20000"/>
+                <property name="poolTimeToWait" value="20000"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- Mapper 파일 등록 -->
+    <mappers>
+        <mapper resource="mappers/StationMapper.xml"/>
+        <mapper resource="mappers/LineMapper.xml"/>
+        <mapper resource="mappers/ConnectionMapper.xml"/>
+        <mapper resource="mappers/TransferStationMapper.xml"/>
+    </mappers>
+
+</configuration>

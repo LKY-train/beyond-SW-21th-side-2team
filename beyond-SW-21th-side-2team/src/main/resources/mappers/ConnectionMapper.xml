@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.project.model.dao.ConnectionDAO">
+
+    <!-- Result Map for ConnectionDTO -->
+    <resultMap id="connectionResultMap" type="com.team2.project.model.dto.ConnectionDTO">
+        <id property="connectionId" column="connection_id"/>
+        <result property="fromStationId" column="from_station_id"/>
+        <result property="toStationId" column="to_station_id"/>
+        <result property="travelTime" column="travel_time"/>
+        <result property="fromStationName" column="from_station_name"/>
+        <result property="toStationName" column="to_station_name"/>
+    </resultMap>
+
+    <!-- 모든 연결 조회 -->
+    <select id="selectAllConnections" resultMap="connectionResultMap">
+        SELECT 
+            c.connection_id,
+            c.from_station_id,
+            c.to_station_id,
+            c.travel_time,
+            s1.station_name as from_station_name,
+            s2.station_name as to_station_name
+        FROM connections c
+        INNER JOIN stations s1 ON c.from_station_id = s1.station_id
+        INNER JOIN stations s2 ON c.to_station_id = s2.station_id
+        ORDER BY c.from_station_id, c.to_station_id
+    </select>
+
+    <!-- 특정 역에서 출발하는 모든 연결 조회 -->
+    <select id="selectConnectionsByFromStation" parameterType="int" resultMap="connectionResultMap">
+        SELECT 
+            c.connection_id,
+            c.from_station_id,
+            c.to_station_id,
+            c.travel_time,
+            s1.station_name as from_station_name,
+            s2.station_name as to_station_name
+        FROM connections c
+        INNER JOIN stations s1 ON c.from_station_id = s1.station_id
+        INNER JOIN stations s2 ON c.to_station_id = s2.station_id
+        WHERE c.from_station_id = #{fromStationId}
+    </select>
+
+    <!-- 두 역 사이의 연결 조회 -->
+    <select id="selectConnectionBetweenStations" resultMap="connectionResultMap">
+        SELECT 
+            c.connection_id,
+            c.from_station_id,
+            c.to_station_id,
+            c.travel_time,
+            s1.station_name as from_station_name,
+            s2.station_name as to_station_name
+        FROM connections c
+        INNER JOIN stations s1 ON c.from_station_id = s1.station_id
+        INNER JOIN stations s2 ON c.to_station_id = s2.station_id
+        WHERE c.from_station_id = #{fromStationId}
+          AND c.to_station_id = #{toStationId}
+    </select>
+
+    <!-- 특정 역에 연결된 역들의 ID 조회 (BFS 알고리즘용) -->
+    <select id="selectConnectedStationIds" parameterType="int" resultType="java.lang.Integer">
+        SELECT to_station_id
+        FROM connections
+        WHERE from_station_id = #{stationId}
+    </select>
+
+    <!-- 연결 추가 -->
+    <insert id="insertConnection" parameterType="com.team2.project.model.dto.ConnectionDTO"
+            useGeneratedKeys="true" keyProperty="connectionId">
+        INSERT INTO connections (from_station_id, to_station_id, travel_time)
+        VALUES (#{fromStationId}, #{toStationId}, #{travelTime})
+    </insert>
+
+    <!-- 양방향 연결 추가 -->
+    <insert id="insertBidirectionalConnection">
+        INSERT INTO connections (from_station_id, to_station_id, travel_time)
+        VALUES 
+            (#{fromStationId}, #{toStationId}, #{travelTime}),
+            (#{toStationId}, #{fromStationId}, #{travelTime})
+    </insert>
+
+    <!-- 연결 정보 수정 -->
+    <update id="updateConnection" parameterType="com.team2.project.model.dto.ConnectionDTO">
+        UPDATE connections
+        SET travel_time = #{travelTime}
+        WHERE connection_id = #{connectionId}
+    </update>
+
+    <!-- 연결 삭제 -->
+    <delete id="deleteConnection" parameterType="int">
+        DELETE FROM connections
+        WHERE connection_id = #{connectionId}
+    </delete>
+
+</mapper>
