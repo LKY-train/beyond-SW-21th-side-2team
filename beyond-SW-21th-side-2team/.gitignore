@@ -16,6 +16,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+beyond-SW-21th-side-2team/subway-database-integration
 
 ### Eclipse ###
 .apt_generated

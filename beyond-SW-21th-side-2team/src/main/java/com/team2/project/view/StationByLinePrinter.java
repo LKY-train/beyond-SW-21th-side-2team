@@ -1,11 +1,10 @@
 package com.team2.project.view;
 
 // StationByLinePrinter.java
-import com.team2.project.controller.SubwayManager;
+
 import com.team2.project.model.dto.StationDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class StationByLinePrinter {
